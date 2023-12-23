@@ -1,20 +1,36 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { FlatList, View, Text, StyleSheet, Button, Image } from 'react-native';
+import Card from './Card.js';
+import OrderHistoryScreen from './OrderHistory.js';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { LanguageProvider } from './LanguageContext';
+import { SafeAreaView } from 'react-native-safe-area-context'; // Import SafeAreaView
+import LanguageToggleButton from './LanguageToggleButton';
+
+const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <LanguageProvider>
+      <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+<NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="OrderHistory"
+            component={OrderHistoryScreen}
+            options={({ navigation }) => ({
+              title: 'Order History',
+              headerRight: () => <LanguageToggleButton />,
+            })}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+      </SafeAreaView>
+    </LanguageProvider>
+    
+   
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+
