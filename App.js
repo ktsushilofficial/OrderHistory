@@ -8,6 +8,7 @@ import { LanguageProvider } from './LanguageContext';
 import { SafeAreaView } from 'react-native-safe-area-context'; // Import SafeAreaView
 import LanguageToggleButton from './LanguageToggleButton';
 
+
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -32,5 +33,6 @@ export default function App() {
    
   );
 }
+
 
 

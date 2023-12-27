@@ -1,35 +1,42 @@
-import React ,{useContext,useEffect}from 'react';
+import React ,{useContext,useEffect, useState}from 'react';
 import { View, Text, Image, Button, StyleSheet, Touchable, TouchableOpacity, Alert } from 'react-native';
 import LanguageContext from './LanguageContext';
 const Card = ({ orderNumber, orderDate, orderStatus, itemsPurchased, image, onPressDetails }) => {
   const { isRTL } = useContext(LanguageContext);
+  const [rowdirection, settowdir] = useState("row")
+  useEffect(()=>{
+    isRTL ? settowdir("row-reverse") : settowdir("row")
+  },[isRTL])
 
-  useEffect(() => {
-    console.log('isRTL changed from Card item:', isRTL);
-
-    // You can perform additional actions based on the new isRTL value
-    // For example, you might want to refresh the content of the component
-    // or trigger some other logic when the language direction changes.
-  }, [isRTL]);
   return (
     <View style={styles.item}>
-    <Text style={styles.orderNumber}>{orderNumber}</Text>
+       <View style={{flexDirection:rowdirection}}>
+       <Text style={styles.orderNumber}>{orderNumber}</Text>
+       </View>
+   
+    <View style={{flexDirection:rowdirection}}>
     <Image source={image} style={styles.image} />
+    </View>
+    <View style={{flexDirection:rowdirection}}>
     <Text style={styles.orderDate}>{isRTL ? `ترتيب التاريخ:${orderDate}`:`Order Date : ${orderDate}` }   
      </Text>
+    </View>
+    
     <View style={styles.lineStyle} />
-    <View style={styles.statusContainer}>
+    <View style={[styles.statusContainer,{flexDirection:rowdirection}]}>
       <Text style={styles.orderStatus}>{isRTL ? "تاريخ الطلب": "Order Status"}</Text>
       <Text style={styles.shippingStatus}>{orderStatus}</Text>
     </View>
-    <View style={[styles.itemsContainer,{marginTop:10}]}>
+    <View style={[styles.itemsContainer,{marginTop:10,flexDirection:rowdirection}]}>
       <Text style={styles.items}>{isRTL ? "لعناصر المشتر" :"Items"}</Text>
       <Text style={styles.itemsPurchased}>{itemsPurchased}</Text>
     </View>
     <TouchableOpacity onPress={()=>{
       Alert.alert('', isRTL ? 'لم يتم تنفيذ شاشة التفاصيل!' : 'Detail Screen is not implemented!');
     }}>
-    <Text style={styles.underlineText}>{isRTL ? "تفاصيل" : "Details"}</Text>
+      <View style={{flexDirection:rowdirection}}>
+      <Text style={styles.underlineText}>{isRTL ? "الأفضل في السوق" : "Best in The Market"}</Text>
+      </View>
     </TouchableOpacity>
     
     
@@ -40,7 +47,6 @@ const Card = ({ orderNumber, orderDate, orderStatus, itemsPurchased, image, onPr
 
 const styles = StyleSheet.create({
   item: {
-    
     borderWidth: 1,
     borderColor: 'grey',
     padding: 10,
